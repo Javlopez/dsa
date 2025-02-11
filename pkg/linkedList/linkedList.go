@@ -35,15 +35,12 @@ func (l *LinkedList[T]) Search(element T, equals Equals[T]) (*Node[T], error) {
 		return nil, ErrNodeNotFound
 	}
 
-	for current := l.Head; current != nil; current = current.Next {
+	current := l.Head
+	for current != nil { // Correct loop condition
 		if equals(current.Value, element) {
 			return current, nil
 		}
-
-		if current.Next == nil {
-			break
-		}
-		current = current.Next
+		current = current.Next // Move to the next node *before* checking for nil
 	}
 
 	return nil, ErrNodeNotFound
@@ -51,7 +48,7 @@ func (l *LinkedList[T]) Search(element T, equals Equals[T]) (*Node[T], error) {
 
 func (l *LinkedList[T]) RemoveElement(element T, equals Equals[T]) error {
 	if l.Head == nil {
-		return ErrNodeNotFound
+		return nil
 	}
 
 	if equals(l.Head.Value, element) {
